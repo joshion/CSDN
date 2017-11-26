@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 12px; line-height: 22px; word-wrap: break-word; } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } img { max-width: 100%; max-height: 100%; } a { color: #4080D0; text-decoration: none; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } a:hover { color: #4080D0; text-decoration: underline; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left: 5px solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ .vscode-light { color: rgb(30, 30, 30); } .vscode-dark { color: #DDD; } .vscode-high-contrast { color: white; } .vscode-light code { color: #A31515; } .vscode-dark code { color: #D7BA7D; } .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } .vscode-light blockquote, .vscode-dark blockquote { background: rgba(127, 127, 127, 0.1); border-color: rgba(0, 122, 204, 0.5); } .vscode-high-contrast blockquote { background: transparent; border-color: #fff; }
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-left: 40px; } .task-list-item { list-style-type: none; } .task-list-item-checkbox { vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="qtvcvc14qt591qt540icuqtwebkit"><strong>Qt源码在VC环境下编译（以VC14下Qt5.9.1和Qt5.4.0为例，包含icu和QtWebkit模块）</strong></h1>
+<h4 id="20171126"><em>2017年11月26日</em></h4>
+<h2 id="icu57-qt591-qtwebkitvc14"><strong>ICU57 + Qt5.9.1 + QtWebKit在VC14下编译</strong></h2>
+<h3 id="">编译所需工具</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>下载地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qt Source</td>
+<td><a href="">https://download.qt.io/archive/qt/5.9/</a></td>
+</tr>
+<tr>
+<td>VS Compiler</td>
+<td><a href="">https://docs.microsoft.com/en-us/visualstudio/install/create-a-network-installation-of-visual-studio</a></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><a href="">https://www.python.org/downloads/</a></td>
+</tr>
+<tr>
+<td>Ruby</td>
+<td><a href="">https://www.ruby-lang.org/en/downloads/</a></td>
+</tr>
+<tr>
+<td>Perl</td>
+<td><a href="">https://www.perl.org/get.html</a></td>
+</tr>
+<tr>
+<td>ICU</td>
+<td><a href="">http://site.icu-project.org/download</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="qt591-vc14-release-64bit">总览（以Qt5.9.1_VC14_release_64bit为例）</h3>
+<ul>
+<li>
+<p>工具环境</p>
+<ul>
+<li>
+<p>确保编译工具安装目录为默认目录（C盘），并已将bin路径加入Windows系统环境变量Path</p>
+</li>
+<li>
+<p>编译目录结构</p>
+<pre><code>Root
+|
+|-- 5.9.1_x64.bat
+|-- ICU_57
+|   |
+|   `--icu
+|       |-- include
+|       |-- lib64
+|       |-- bin64
+|       `-- ...
+`--qt-everywhere-opensource-src-5.9.1
+    |
+    |--qtwebkit
+    `-- ...
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>编译脚本（5.9.1_x64.bat）</p>
+<pre class="hljs"><code><div><span class="hljs-comment">REM Set up VC14 Tools Command Prompt</span>
+<span class="hljs-keyword">CALL</span> "C:\Program Files (x86)\Microsoft Visual Studio <span class="hljs-number">14</span>.<span class="hljs-number">0</span>\VC\vcvarsall.bat" amd64
+
+<span class="hljs-built_in">SET</span> ROOT=<span class="hljs-variable">%CD%</span>
+<span class="hljs-built_in">SET</span> QT_SOURCE=<span class="hljs-variable">%ROOT%</span>\qt-everywhere-opensource-src-<span class="hljs-number">5</span>.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>
+<span class="hljs-built_in">SET</span> QT_WORKING=<span class="hljs-variable">%ROOT%</span>\<span class="hljs-number">5</span>.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>_vc14_64
+<span class="hljs-built_in">SET</span> QT_INSTALL=<span class="hljs-variable">%ROOT%</span>\Qt\Qt5.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>\<span class="hljs-number">5</span>.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>\msvc2015_64
+
+<span class="hljs-built_in">SET</span> ICU_OPT=<span class="hljs-variable">%ROOT%</span>\ICU_57\icu
+<span class="hljs-built_in">SET</span> ICU_INCLUDE=<span class="hljs-variable">%ICU_OPT%</span>\include
+<span class="hljs-built_in">SET</span> ICU_LIB=<span class="hljs-variable">%ICU_OPT%</span>\lib64
+<span class="hljs-built_in">SET</span> ICU_BIN=<span class="hljs-variable">%ICU_OPT%</span>\bin64
+<span class="hljs-comment">
+REM Set perl, ruby and python path, for needing them to build the QtWebKit</span>
+<span class="hljs-built_in">SET</span> <span class="hljs-built_in">PATH</span>=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\Ruby24-x64\bin;C:\Python27amd64;<span class="hljs-variable">%PATH%</span>
+<span class="hljs-comment">
+REM Set icu path, for needing it's dll to build something</span>
+<span class="hljs-built_in">SET</span> <span class="hljs-built_in">PATH</span>=<span class="hljs-variable">%QT_SOURCE%</span>\qtbase\bin;<span class="hljs-variable">%QT_SOURCE%</span>\gnuwin32\bin;<span class="hljs-variable">%ICU_BIN%</span>;<span class="hljs-variable">%PATH%</span>
+<span class="hljs-comment">
+REM Set the build working directory, so you can build 32/64 at the same time</span>
+<span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXIST</span> <span class="hljs-variable">%QT_WORKING%</span> <span class="hljs-built_in">RD</span> /s /q <span class="hljs-variable">%QT_WORKING%</span>
+<span class="hljs-built_in">MKDIR</span> <span class="hljs-variable">%QT_WORKING%</span>
+<span class="hljs-built_in">CD</span> /d <span class="hljs-variable">%QT_WORKING%</span>
+<span class="hljs-comment">
+REM Building Qt, Just build "qtbase" and "qttools"</span>
+<span class="hljs-keyword">CALL</span> <span class="hljs-variable">%QT_SOURCE%</span>\configure.bat -mp -release -shared -confirm-license -platform win32-msvc -opensource -prefix <span class="hljs-variable">%QT_INSTALL%</span> -icu -I <span class="hljs-variable">%ICU_INCLUDE%</span> -L <span class="hljs-variable">%ICU_LIB%</span> ICU_LIBS="icudt.lib icuuc.lib icuin.lib" -opengl desktop -nomake examples -nomake tests -no-dbus -skip qtmacextras -skip qtx11extras -skip qtimageformats -skip qtandroidextras -skip qtserialport -skip qtserialbus -skip qtactiveqt -skip qtxmlpatterns -skip qtsvg -skip qtdeclarative -skip qtremoteobjects -skip qtscxml -skip qtpurchasing -skip qtcanvas3d -skip qtgamepad -skip qt3d -skip qtwayland -skip qtconnectivity -skip qtwebsockets -skip qtwebchannel -skip qtsensors -skip qtmultimedia -skip qtspeech -skip qtdatavis3d -skip qtcharts -skip qtwinextras -skip qtgraphicaleffects -skip qtquickcontrols2 -skip qtquickcontrols -skip qtvirtualkeyboard -skip qtlocation -skip qtwebkit -skip qtscript -skip qtwebengine -skip qtwebview -skip qtnetworkauth -skip qttranslations -skip qtdoc
+
+<span class="hljs-built_in">PAUSE</span>
+<span class="hljs-built_in">ECHO</span> ON
+nmake &amp;&amp; nmake install
+<span class="hljs-comment">
+REM The current used ICU version is 57.1</span>
+<span class="hljs-built_in">COPY</span> /v /y <span class="hljs-variable">%ICU_BIN%</span>\icudt57.dll <span class="hljs-variable">%QT_INSTALL%</span>\bin\
+<span class="hljs-built_in">COPY</span> /v /y <span class="hljs-variable">%ICU_BIN%</span>\icuin57.dll <span class="hljs-variable">%QT_INSTALL%</span>\bin\
+<span class="hljs-built_in">COPY</span> /v /y <span class="hljs-variable">%ICU_BIN%</span>\icuuc57.dll <span class="hljs-variable">%QT_INSTALL%</span>\bin\
+
+<span class="hljs-built_in">PAUSE</span>
+<span class="hljs-keyword">CALL</span> <span class="hljs-variable">%QT_WORKING%</span>\qtbase\bin\qmake.exe <span class="hljs-variable">%QT_SOURCE%</span>\qtwebkit\Webkit.pro
+nmake &amp;&amp; nmake install
+</div></code></pre>
+</li>
+<li>
+<p>若编译工具都按要求安装，ICU和Qt的源码也按照相应的目录结构放置，执行5.9.1_x64.bat脚本即可编译Qt的qtbase, qttools, qtwebkit模块</p>
+</li>
+<li>
+<p>倘若编译失败，请阅读完全文</p>
+</li>
+</ul>
+<hr>
+<h3 id="qt-source">Qt Source</h3>
+<ul>
+<li>
+<p>解压<code>qt-everywhere-opensource-src-5.9.1.zip</code></p>
+</li>
+<li>
+<p>下载 QtWebKit 模块 <a href="">https://download.qt.io/archive/qt/5.9/5.9.1/submodules/qtwebkit-opensource-src-5.9.1.zip</a></p>
+<ul>
+<li>将<code>qtwebkit-opensource-src-5.9.1.zip</code>解压，文件夹改名为qtwebkit并复制到qt-everywhere-opensource-src-5.9.1文件夹下</li>
+</ul>
+</li>
+<li>
+<p>目录树如下所示</p>
+<pre><code>qt-everywhere-opensource-src-5.9.1
+|
+|-- ...
+|-- gnuwin32
+|-- qtbase
+|   |-- configure.bat
+|   |-- config_help.txt
+|   |-- configure.exe
+|   `-- mkspecs
+|       |
+|       |-- win32-msvc
+|       |-- common
+|           |
+|           `-- msvc-desktop.conf
+|-- qtwebkit
+|   | 
+|   |-- 
+|   `-- ...
+|-- qtwebengine
+|-- configure.bat
+|-- README
+`-- ...
+</code></pre>
+</li>
+<li>
+<p>编译流程简述</p>
+<ol>
+<li>
+<p>执行根目录下的<code>configure.bat</code>脚本，在该脚本中会调用qtbase下的<code>configure.bat</code>，而此脚本又会调用同目录下的<code>configure.exe</code></p>
+<ol>
+<li>在旧版本的qt源码中，会在<code>qtbase\tools\</code>目录下看到有个configure的项目，<code>configure.exe</code>正是由该项目编译所得。但在Qt5.9.1的源码中会发现整个tools目录都被移除。（此外还有个<code>对qt库的可视化裁剪工具</code>的项目也找不到，不知道是移除还是移动到了其他文件夹。）</li>
+<li>编译qt时，需要使用的是根目录下的<code>configure.bat</code>加上编译参数来进行编译</li>
+</ol>
+</li>
+<li>
+<p>在跟目录和qtbase目录下会发现各存在一个<code>configure</code>文件，此文件为在Linux/Unix系统下编译时使用，在Windows系统下无论你在命令行中输入configure或者configure.bat都会执行<code>configure.bat</code>这个脚本</p>
+</li>
+<li>
+<p>根目录下的<code>README</code>和qtbase目录下的<code>config_help.txt</code>对编译源码所需的工具以及对Qt源码库的定制参数做出了详细的介绍</p>
+<ol>
+<li><code>REAME</code>文件主要介绍所需要编译工具以及其最低版本
+<ul>
+<li>可在其中看到以下字段<pre><code>Perl version 5.12 or later   [http://www.activestate.com/activeperl/]
+Python version 2.7 or later  [http://www.activestate.com/activepython/]
+Ruby version 1.9.3 or later  [http://rubyinstaller.org/]
+</code></pre>
+</li>
+<li>由于官方发布的Qt5.9.1版本中已经移除了QtWebkit模块，故在<code>README</code>中没有看到ICU的版本需求说明。（本人使用57.1，有空的同学可以去尝试下其他版本的ICU）<pre><code>ICU version 57.1  [http://site.icu-project.org/download/57#TOC-ICU4C-Download]
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>config_help.txt</code>则对Qt库自身的编译参数作出了说明
+<ul>
+<li>第三方库的include，lib文件夹以及libs文件名配置（使用opengssl，icu等库编译时会用上此部分）
+<ul>
+<li>在<code>config_help.txt</code>中可看到以下说明，<pre><code>Usage:  configure [options] [assignments]
+Configure understands variable assignments like VAR=value on the command line.
+Each uppercased library name (obtainable with -list-libraries) supports the
+suffixes _INCDIR, _LIBDIR, _PREFIX (INCDIR=PREFIX/include, LIBDIR=PREFIX/lib),
+_LIBS, and - on Windows and Darwin - _LIBS_DEBUG and _LIBS_RELEASE. E.g.,
+ICU_PREFIX=/opt/icu42 ICU_LIBS="-licui18n -licuuc -licudata".
+</code></pre>
+<ul>
+<li>按照安装文档使用<code>ICU_INCLUDE=&quot;icu_dir&quot;</code>这种方法配置include和lib文件夹时并不能生效（在编译前检查时会报错），但是可以使用<code>ICU_LIBS=&quot;icudt.lib icuuc.lib icuin.lib&quot;</code>来配置需要链接的lib文件。因此最终选择使用
+<ul>
+<li><code>-I &quot;icu_include_dir&quot;</code> 配置include路径</li>
+<li><code>-L &quot;icu_lib_dir&quot;</code> 配置lib路径</li>
+<li><code>-l &quot;icudt&quot; -l &quot;icuuc&quot; -l &quot;icuin&quot;</code>配置lib文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>此外也可以使用<code>SET VARIABLE=VALUE</code>这种方式配置include和lib路径
+<ul>
+<li><code>SET INCLUDE=%INCLUDE%;%ICU_DIST%\include</code></li>
+<li><code>SET LIB=%LIB%;%ICU_DIST%\lib</code></li>
+</ul>
+<blockquote>
+<p>上面两行相当于在旧的路径上加上了icu的include和lib路径</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>仅编译部分Qt库（对Qt库裁剪）
+<ul>
+<li><code>-nomake &lt;part&gt;</code>
+<blockquote>
+<p>part主要为examples, tests</p>
+</blockquote>
+</li>
+<li><code>-skip &lt;module&gt;</code>
+<blockquote>
+<p>基本在源码根目录下的每个一个文件名都为一个module（除了 coin 和 gnuwin32）</p>
+</blockquote>
+</li>
+<li><code>-no-dbus</code>可以去除进程通信相关的一个库</li>
+<li><code>-no-feature-&lt;feature&gt;</code> 去除某些feature，本人没有用过该功能</li>
+<li>当需要编译QtWebkit时，可修改编译配置相关源码进行裁剪
+<blockquote>
+<p><a href="http://www.cnblogs.com/lingdhox/p/3685360.html">[Qt5] 减少dll依赖和大小(特别是webkit的大小和依赖)</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>其他编译参数
+<ul>
+<li><code>-opengl &lt;api&gt;</code>
+<blockquote>
+<p>Windows下常用的参数为<code>Desktop</code>，嵌入式绝大多数为<code>es2</code></p>
+</blockquote>
+</li>
+<li><code>-static-runtime</code>会把windows的runtime库静态链接到Qt库的dll中，也即是说在没有安装runtime库的机器上，仅有Qt的dll也可以运行程序</li>
+<li><code>-platform &lt;target&gt;</code>
+<blockquote>
+<p>qtbase\mkspecs目录下的每一个文件夹名为一个<code>target</code>，例子中使用<code>win32-msvc</code>这个<code>target</code>进行编译</p>
+</blockquote>
+</li>
+<li>编译 Debug 和 Release 版本
+<ul>
+<li>-release</li>
+<li>-debug</li>
+<li>-debug-and-release</li>
+</ul>
+<blockquote>
+<p>三个参数三选一即可，（如需要Release版本下的pdb文件，需加上<code>-force-debug-info</code>）</p>
+</blockquote>
+</li>
+<li>编译 静态库 或 动态库
+<ul>
+<li><code>-shared</code> 动态库</li>
+<li><code>-static</code> 静态库（注意与<code>-static-runtime</code>的差别，<code>-static</code>意为编译出来的Qt库为静态库， 而<code>-static-runtime</code>则是Qt库静态链接VC运行时库）</li>
+</ul>
+<blockquote>
+<p>本人开发的为大型Windows桌面程序，故而仅需编译动态库，也未曾尝试编译静态库。但按照本文方法编译静态库应该不会有太大问题。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="vs2015-vs2017">VS2015 或者 VS2017</h3>
+<ul>
+<li>
+<p>安装</p>
+<ul>
+<li>Visual Studio的安装只需要机器可以联网，一键安装即可，这里就不在多做介绍。</li>
+</ul>
+</li>
+<li>
+<p>VS2017中使用VC14的编译工具报错问题</p>
+<ul>
+<li>由于VS2017中集成了VC14编译器，而且VS2017可选择安装目录，可配置安装模块等等，有些同学更倾向于仅安装了VS2017。在此环境下使用VC14编译工具会有些小问题，这应该是M$工程师留下的小Bug。</li>
+<li>无论是在Start菜单中点击VS2015 x64 Native Tools Command Prompt还是使用命令行，最终都会使用<code>C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat</code>这个bat脚本来初始化VC编译环境。该脚本中有以下代码<pre class="hljs"><code><div>@<span class="hljs-built_in">echo</span> off
+<span class="hljs-comment">REM VC command prompt depends on env. variable installed during VS. This causes VC command prompt to break for C++ Build SKU.</span>
+<span class="hljs-comment">REM So if VS is not installed and C++ Build SKU is installed, set appropriate environment for C++ Build SKU by calling into it's batch file.</span>
+<span class="hljs-comment">REM C++ Build SKU supports only desktop development environment.</span>
+
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">exist</span> "%~dp0..\common7\IDE\devenv.exe" <span class="hljs-keyword">goto</span> setup_VS
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">exist</span> "%~dp0..\common7\IDE\wdexpress.exe" <span class="hljs-keyword">goto</span> setup_buildsku
+
+:setup_VS
+</div></code></pre>
+<ul>
+<li>调用此脚本时会在<code>if exist &quot;%~dp0..\common7\IDE\devenv.exe&quot; goto setup_VS</code>处中断</li>
+<li>这是因为仅安装了VS2017，也即是说机器中只有VS2017那一份IDE，所以在<code>C:\Program Files (x86)\Microsoft Visual Studio 14.0\common7\IDE\</code>文件夹下是不会有<code>devenv.exe</code>这个文件。(<code>%~dp0</code>代指bat脚本文件所在文件夹)</li>
+<li>解决方法，将这两句判断的语句注释掉即可<pre class="hljs"><code><div><span class="hljs-comment">REM if exist "%~dp0..\common7\IDE\devenv.exe" goto setup_VS</span>
+<span class="hljs-comment">REM if not exist "%~dp0..\common7\IDE\wdexpress.exe" goto setup_buildsku</span>
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="python-ruby-perl">Python Ruby Perl</h3>
+<ol>
+<li>
+<p>在qtbase\bin文件夹下看到两个后缀为pl的文件，在编译qtbase模块时应该需要Perl这个工具。</p>
+</li>
+<li>
+<p>而在安装过程中，并没有仔细研究过编译的log，此外也没有时间去阅读Qt源码。这些工具都是为了编译哪些模块则不是太清楚。唯一确定是，如果你想编译QtWebKit模块，Python Ruby Perl 和 icu 是必须全部安装的。</p>
+</li>
+<li>
+<p>QtWebKit依赖于Qt的其他模块，若没有编译那些模块就编译QtWebKit会把那些模块全部编译到QtWebKit.dll中。（此项是我想当然猜的，有兴趣的同学可以去研究一下，告诉下我正确答案）</p>
+</li>
+</ol>
+<h3 id="icu">ICU</h3>
+<ul>
+<li>
+<p>如果不需要编译QtWebKit库，这个库完全不需要安装。</p>
+</li>
+<li>
+<p>在网上搜索各种关于Qt icu的信息，各种搜索结果搜搞得好复杂，有些设置要求你在Windows下安装一个Linux环境。也许是由于搜索了&quot;Qt icu&quot;，所以搜索结果就变得复杂了；也有可能是我水平太低，在这之前并不知道ICU是一个编码转码库...</p>
+</li>
+<li>
+<p>在官方中下载到ICU的源码解压后，可得到以下目录结构的文件</p>
+<pre><code>icu
+|
+`--source
+    |
+    `allinone
+        |
+        `--allinone.sln
+</code></pre>
+<ul>
+<li>
+<p>使用VS2015/VS2017打开<code>allinone.sln</code>这个解决方案，可看到工程中配置的编译器版本为VC10</p>
+<p><img src="file:///g%3A/CSDN/Compile_Qt/1.png" alt=""></p>
+</li>
+<li>
+<p>除了makedata这个工程以外，其他工程全部升级VC14</p>
+<p><img src="file:///g%3A/CSDN/Compile_Qt/2.png" alt=""></p>
+</li>
+<li>
+<p>右键点击Solution 'allinone'，然后Build Solution</p>
+<ul>
+<li>在Qt开发过程中无需对ICU库Debug，而且编译Debug/Release版本的Qt库时都可使用Release版本的ICU，因此，我们仅需要编译32/64bit的Release版本的ICU库</li>
+<li>Qt中仅使用<code>icudt57.dll(stubdata), icuuc57.dll(common), icuin57.dll(i18n)</code>这三个dll，本人贪图方便就整个Solution都进行编译了。但复制资源，仅复制这三个文件到Qt的安装目录下的bin文件夹即可。</li>
+</ul>
+</li>
+<li>
+<p>若ICU编译成功，可得到icu目录下会多出以下文件夹</p>
+<pre><code>icu
+|
+|--source
+|   |
+|   `allinone
+|       |
+|       `--allinone.sln
+|
+|--include
+|--lib
+|--bin
+|--lib64
+`--bin64
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="">编译脚本编写</h3>
+<h3 id="markdown-src-httpsgithubcomjoshioncsdngit"><em>Markdown Src：</em>  https://github.com/joshion/CSDN.git</h3>
+<h3 id="referene"><em>Referene</em></h3>
+<ol>
+<li>
+<p><a href="http://blog.csdn.net/liuyez123/article/details/50339865#comments"> Visual Studio 2015编译安装配置QT5.5.1(含QTWEBKIT)</a></p>
+</li>
+<li>
+<p><a href="http://www.cnblogs.com/swarmbees/p/5930202.html">msvc2013编译qt5.6源码</a></p>
+</li>
+<li>
+<p><a href="https://www.tuicool.com/articles/2qYRfe">自编译QT中的ICU库问题</a></p>
+</li>
+<li>
+<p><a href="http://blog.csdn.net/mkdym/article/details/48223489">用msvc2008编译qt5.4.0</a></p>
+</li>
+<li>
+<p><a href="http://www.cnblogs.com/lingdhox/p/3685360.html">[Qt5] 减少dll依赖和大小(特别是webkit的大小和依赖)</a></p>
+</li>
+<li>
+<p><a href="http://www.cnblogs.com/oloroso/p/6404475.html">VS2017自带VS2015编译器等在命令行下无法使用问题</a></p>
+</li>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/install/create-an-offline-installation-of-visual-studio">Create an offline installation of Visual Studio 2017</a></p>
+</li>
+<li>
+<p><a href="http://www.cnblogs.com/SunShineYPH/archive/2011/12/13/2285570.html">Bat命令学习</a></p>
+</li>
+</ol>
+
+    </body>
+    </html>
