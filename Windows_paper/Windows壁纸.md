@@ -10,7 +10,7 @@
 
 - 此文件夹下所有的文件没有后缀名，但全部是图片文件。将这些文件拷贝出来，并重命名为jpg后缀的文件，即可得到壁纸
 - 可使用cmd命令行批量重命名
-    - <code>ren *.* *.jpg</code>
+    - <code>ren \*.\* *.jpg</code>
 
 ## 修改默认锁屏壁纸
 
@@ -39,3 +39,5 @@
     - 使用www.bing.com+以下红框中的url即可得到bing无水印壁纸
         - ![](Windows_wallpaper.png)
         - 可将分辨率改为 1920*1080 或者 2560*1440 获取更大尺寸的超清壁纸
+
+- Markdown Src:  *https://github.com/joshion/CSDN.git*
