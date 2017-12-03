@@ -15,8 +15,6 @@
 | Perl        | [https://www.perl.org/get.html]()                                                                        |
 | ICU         | [http://site.icu-project.org/download]()                                                                 |
 
----
-
 ### 总览（以Qt5.9.1_VC14_release_64bit为例）
 
 - 工具环境
@@ -248,6 +246,7 @@
         - 在Qt开发过程中无需对ICU库Debug，而且编译Debug/Release版本的Qt库时都可使用Release版本的ICU，因此，我们仅需要编译32/64bit的Release版本的ICU库
         - Qt中仅使用```icudt57.dll(stubdata), icuuc57.dll(common), icuin57.dll(i18n)```这三个dll，本人贪图方便就整个Solution都进行编译了。但复制资源，仅复制这三个文件到Qt的安装目录下的bin文件夹即可。
     - 若ICU编译成功，可得到icu目录下会多出以下文件夹
+
         ```
         icu
         |
@@ -266,11 +265,100 @@
 
 
 ### 编译脚本编写
+    > 我们可以不学习OOP编程技术，但是我们绝不能不遵守SOP(SB Oriented Programming)编程准则--软件设计的终极目标就是“不但SB会用你的程序，而且SB也能看懂你的代码”。因此最后，我还是对文章开头的脚本作下说明。
+- 初始化编译环境
 
+    ``` bat
+    REM Set up VC14 Tools Command Prompt
+    CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
 
-### *Markdown Src：*  https://github.com/joshion/CSDN.git
+    SET ROOT=%CD%
+    SET QT_SOURCE=%ROOT%\qt-everywhere-opensource-src-5.9.1
+    SET QT_WORKING=%ROOT%\5.9.1_vc14_64
+    SET QT_INSTALL=%ROOT%\Qt\Qt5.9.1\5.9.1\msvc2015_64
 
-### *Referene*
+    SET ICU_OPT=%ROOT%\ICU_57\icu
+    SET ICU_INCLUDE=%ICU_OPT%\include
+    SET ICU_LIB=%ICU_OPT%\lib64
+    SET ICU_BIN=%ICU_OPT%\bin64
+    ```
+
+    - ```CALL 'bat' 'value'```，调用另外一个bat脚本，类似于一个函数调用
+    - ```SET VAR=value```，相当于定义变量VAR，并赋予初值value
+    - ```%VAR%```，则为取VAR的值
+    - 上述代码初始化了VC14_x64编译环境，并定义了当前的工作路径，QT的路径，ICU的路径以备后用。
+
+- 将编译工具加入系统环境变量
+
+    ``` bat
+    REM Set perl, ruby and python path, for needing them to build the QtWebKit
+    SET PATH=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\Ruby24-x64\bin;C:\Python27amd64;%PATH%
+
+    REM Set icu path, for needing it's dll to build something
+    SET PATH=%QT_SOURCE%\qtbase\bin;%QT_SOURCE%\gnuwin32\bin;%ICU_BIN%;%PATH%
+    ```
+    - 编译Qt需要Perl, Ruby, Python这三个工具来做些事情，我们安装了这些工具后，在编译Qt时，又是如何找到这些工具的exe来执行编译某些源码？如果你在安装这些工具时，提勾了加入系统环境变量，那么你会在Windows的System Info里面找到如下图所示的配置。而在Qt的编译脚本执行时，会检查系统环境变量的Path里有没有对应的工具。
+        ![](3.png) 
+    - 当然我们也可以设置一个临时的PATH。如上述代码所示，将需要的编译工具路径追加在原系统的PATH里（当退出当前的cmd命令窗口后，这些设置会被自动清除）。
+    - 在使用```-icu```编译的同时，也需要将ICU的dll所在目录添加到PATH中。（如果我没有记错，在使用```-icu```编译时，在编译widgets模块时，需要用到ICU的dll来生成某些文件）
+- 设置编译QT的工具目录
+
+    ``` bat
+    REM Set the build working directory, so you can build 32/64 at the same time
+    IF EXIST %QT_WORKING% RD /s /q %QT_WORKING%
+    MKDIR %QT_WORKING%
+    CD /d %QT_WORKING%
+    ```
+
+    - 在使用configure.bat编译时，会在将当前的目录工作，所有生成的中间文件都会放在当前目录，所以需要在一个工作目录调用源码目录下configure.bat，这样可以避免污染源码。即使在编译过程中发生了错误，我们还是可以删了工作目录或者换一个工作目录重来。此外，也可以同时编译多个版本（32/64,debug/release,vc140/vc141）的Qt。
+
+- Qt编译参数设置
+
+    ``` bat
+    REM Building Qt, Just build "qtbase" and "qttools"
+    CALL %QT_SOURCE%\configure.bat -mp -debug -shared -confirm-license -platform win32-msvc -opensource -prefix %QT_INSTALL% -icu -I %ICU_INCLUDE% -L %ICU_LIB% ICU_LIBS="icudt.lib icuuc.lib icuin.lib" -opengl desktop -nomake examples -nomake tests -no-dbus -skip qtmacextras -skip qtx11extras -skip qtimageformats -skip qtandroidextras -skip qtserialport -skip qtserialbus -skip qtactiveqt -skip qtxmlpatterns -skip qtsvg -skip qtdeclarative -skip qtremoteobjects -skip qtscxml -skip qtpurchasing -skip qtcanvas3d -skip qtgamepad -skip qt3d -skip qtwayland -skip qtconnectivity -skip qtwebsockets -skip qtwebchannel -skip qtsensors -skip qtmultimedia -skip qtspeech -skip qtdatavis3d -skip qtcharts -skip qtwinextras -skip qtgraphicaleffects -skip qtquickcontrols2 -skip qtquickcontrols -skip qtvirtualkeyboard -skip qtlocation -skip qtwebkit -skip qtscript -skip qtwebengine -skip qtwebview -skip qtnetworkauth -skip qttranslations -skip qtdoc
+    PAUSE
+    ECHO ON
+    nmake && nmake install
+    ```
+
+## **Qt5.4.0 VC14下编译**
+
+- 在官方提供的文档中，可以发现是没有对应的编译platform。本人尝试了多次，也试过修改下Qt的源码，最终发现使用```-platform win32-msvc2013```也是可以编译vc14版本的Qt。 但还是仅能可以编译base模块。另外，qttools下的designer这个程序也可以编译通过，但是assistant这个却不行，这个应该是Qt5.4.0中的一些C++STL中的模板和容器不支持在VC14上编译。
+- 由于Qt5.4是一个过度版本，我就不再在这个版本多做研究。我在下面给出了编译脚本，有兴趣的同学可以研究一下。遇到问题，去看看```\qtbase\mkspecs\win32-msvc2013```和```\qtbase\tools\configure```下的源码，应该会有所帮助。
+
+    ``` bat
+    REM Set up VC14 Tools Command Prompt
+    CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+
+    SET ROOT=%CD%
+    SET QT_SOURCE=%ROOT%\qt-everywhere-opensource-src-5.4.0
+    SET QT_WORKING=%ROOT%\5.4.0_vc14_64
+    SET QT_INSTALL=%ROOT%\Qt\Qt5.4.0\5.4.0\msvc2015_64
+
+    REM Set icu path, for needing it's dll to build something
+    SET PATH=%QT_SOURCE%\qtbase\bin;%QT_SOURCE%\gnuwin32\bin;%PATH%
+
+    REM Set the build working directory, so you can build 32/64 at the same time
+    IF EXIST %QT_WORKING% RD /s /q %QT_WORKING%
+    MKDIR %QT_WORKING%
+    CD /d %QT_WORKING%
+    
+    CALL %QT_SOURCE%\configure.bat -mp -debug -shared -confirm-license -platform win32-msvc2013 -opensource -prefix %QT_INSTALL% -opengl desktop -nomake examples -nomake tests -skip qtandroidextras -skip qtmacextras -skip qtx11extras -skip qtsvg -skip qtxmlpatterns -skip qtdeclarative -skip qtquickcontrols -skip qtmultimedia -skip qtwinextras -skip qtactiveqt -skip qtlocation -skip qtsensors -skip qtconnectivity -skip qtwebsockets -skip qtwebchannel -skip qtwebkit -skip qtwebkit-examples -skip qtimageformats -skip qtgraphicaleffects -skip qtscript -skip qttools -skip qtquick1 -skip qtserialport -skip qtenginio -skip qtwebengine -skip qttranslations -skip qtdoc
+
+    ECHO ON
+    nmake && nmake install
+
+    cd %QT_SOURCE%\qttools\src\designer
+    CALL %QT_WORKING%\qtbase\bin\qmake.exe designer.pro
+    nmake && nmake install
+
+    cd %QT_SOURCE%\qttools\src\linguist
+    CALL %QT_WORKING%\qtbase\bin\qmake.exe linguist.pro
+    nmake && nmake install
+    ```
+
+## ***Referene***
 1. [ Visual Studio 2015编译安装配置QT5.5.1(含QTWEBKIT)](http://blog.csdn.net/liuyez123/article/details/50339865#comments)
 
 2. [msvc2013编译qt5.6源码](http://www.cnblogs.com/swarmbees/p/5930202.html)
@@ -286,3 +374,5 @@
 7. [Create an offline installation of Visual Studio 2017](https://docs.microsoft.com/en-us/visualstudio/install/create-an-offline-installation-of-visual-studio)
 
 8. [Bat命令学习](http://www.cnblogs.com/SunShineYPH/archive/2011/12/13/2285570.html)
+
+9. *Markdown Src：*  https://github.com/joshion/CSDN.git

@@ -58,7 +58,6 @@ ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-le
 </tr>
 </tbody>
 </table>
-<hr>
 <h3 id="qt591-vc14-release-64bit">总览（以Qt5.9.1_VC14_release_64bit为例）</h3>
 <ul>
 <li>
@@ -398,8 +397,106 @@ ICU_PREFIX=/opt/icu42 ICU_LIBS="-licui18n -licuuc -licudata".
 </li>
 </ul>
 <h3 id="">编译脚本编写</h3>
-<h3 id="markdown-src-httpsgithubcomjoshioncsdngit"><em>Markdown Src：</em>  https://github.com/joshion/CSDN.git</h3>
-<h3 id="referene"><em>Referene</em></h3>
+<pre><code>&gt; 我们可以不学习OOP编程技术，但是我们绝不能不遵守SOP(SB Oriented Programming)编程准则--软件设计的终极目标就是“不但SB会用你的程序，而且SB也能看懂你的代码”。因此最后，我还是对文章开头的脚本作下说明。
+</code></pre>
+<ul>
+<li>
+<p>初始化编译环境</p>
+<pre class="hljs"><code><div><span class="hljs-comment">REM Set up VC14 Tools Command Prompt</span>
+<span class="hljs-keyword">CALL</span> "C:\Program Files (x86)\Microsoft Visual Studio <span class="hljs-number">14</span>.<span class="hljs-number">0</span>\VC\vcvarsall.bat" amd64
+
+<span class="hljs-built_in">SET</span> ROOT=<span class="hljs-variable">%CD%</span>
+<span class="hljs-built_in">SET</span> QT_SOURCE=<span class="hljs-variable">%ROOT%</span>\qt-everywhere-opensource-src-<span class="hljs-number">5</span>.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>
+<span class="hljs-built_in">SET</span> QT_WORKING=<span class="hljs-variable">%ROOT%</span>\<span class="hljs-number">5</span>.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>_vc14_64
+<span class="hljs-built_in">SET</span> QT_INSTALL=<span class="hljs-variable">%ROOT%</span>\Qt\Qt5.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>\<span class="hljs-number">5</span>.<span class="hljs-number">9</span>.<span class="hljs-number">1</span>\msvc2015_64
+
+<span class="hljs-built_in">SET</span> ICU_OPT=<span class="hljs-variable">%ROOT%</span>\ICU_57\icu
+<span class="hljs-built_in">SET</span> ICU_INCLUDE=<span class="hljs-variable">%ICU_OPT%</span>\include
+<span class="hljs-built_in">SET</span> ICU_LIB=<span class="hljs-variable">%ICU_OPT%</span>\lib64
+<span class="hljs-built_in">SET</span> ICU_BIN=<span class="hljs-variable">%ICU_OPT%</span>\bin64
+</div></code></pre>
+<ul>
+<li><code>CALL 'bat' 'value'</code>，调用另外一个bat脚本，类似于一个函数调用</li>
+<li><code>SET VAR=value</code>，相当于定义变量VAR，并赋予初值value</li>
+<li><code>%VAR%</code>，则为取VAR的值</li>
+<li>上述代码初始化了VC14_x64编译环境，并定义了当前的工作路径，QT的路径，ICU的路径以备后用。</li>
+</ul>
+</li>
+<li>
+<p>将编译工具加入系统环境变量</p>
+<pre class="hljs"><code><div><span class="hljs-comment">REM Set perl, ruby and python path, for needing them to build the QtWebKit</span>
+<span class="hljs-built_in">SET</span> <span class="hljs-built_in">PATH</span>=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\Ruby24-x64\bin;C:\Python27amd64;<span class="hljs-variable">%PATH%</span>
+<span class="hljs-comment">
+REM Set icu path, for needing it's dll to build something</span>
+<span class="hljs-built_in">SET</span> <span class="hljs-built_in">PATH</span>=<span class="hljs-variable">%QT_SOURCE%</span>\qtbase\bin;<span class="hljs-variable">%QT_SOURCE%</span>\gnuwin32\bin;<span class="hljs-variable">%ICU_BIN%</span>;<span class="hljs-variable">%PATH%</span>
+</div></code></pre>
+<ul>
+<li>编译Qt需要Perl, Ruby, Python这三个工具来做些事情，我们安装了这些工具后，在编译Qt时，又是如何找到这些工具的exe来执行编译某些源码？如果你在安装这些工具时，提勾了加入系统环境变量，那么你会在Windows的System Info里面找到如下图所示的配置。而在Qt的编译脚本执行时，会检查系统环境变量的Path里有没有对应的工具。
+<img src="file:///g%3A/CSDN/Compile_Qt/3.png" alt=""></li>
+<li>当然我们也可以设置一个临时的PATH。如上述代码所示，将需要的编译工具路径追加在原系统的PATH里（当退出当前的cmd命令窗口后，这些设置会被自动清除）。</li>
+<li>在使用<code>-icu</code>编译的同时，也需要将ICU的dll所在目录添加到PATH中。（如果我没有记错，在使用<code>-icu</code>编译时，在编译widgets模块时，需要用到ICU的dll来生成某些文件）</li>
+</ul>
+</li>
+<li>
+<p>设置编译QT的工具目录</p>
+<pre class="hljs"><code><div><span class="hljs-comment">REM Set the build working directory, so you can build 32/64 at the same time</span>
+<span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXIST</span> <span class="hljs-variable">%QT_WORKING%</span> <span class="hljs-built_in">RD</span> /s /q <span class="hljs-variable">%QT_WORKING%</span>
+<span class="hljs-built_in">MKDIR</span> <span class="hljs-variable">%QT_WORKING%</span>
+<span class="hljs-built_in">CD</span> /d <span class="hljs-variable">%QT_WORKING%</span>
+</div></code></pre>
+<ul>
+<li>在使用configure.bat编译时，会在将当前的目录工作，所有生成的中间文件都会放在当前目录，所以需要在一个工作目录调用源码目录下configure.bat，这样可以避免污染源码。即使在编译过程中发生了错误，我们还是可以删了工作目录或者换一个工作目录重来。此外，也可以同时编译多个版本（32/64,debug/release,vc140/vc141）的Qt。</li>
+</ul>
+</li>
+<li>
+<p>Qt编译参数设置</p>
+<pre class="hljs"><code><div><span class="hljs-comment">REM Building Qt, Just build "qtbase" and "qttools"</span>
+<span class="hljs-keyword">CALL</span> <span class="hljs-variable">%QT_SOURCE%</span>\configure.bat -mp -debug -shared -confirm-license -platform win32-msvc -opensource -prefix <span class="hljs-variable">%QT_INSTALL%</span> -icu -I <span class="hljs-variable">%ICU_INCLUDE%</span> -L <span class="hljs-variable">%ICU_LIB%</span> ICU_LIBS="icudt.lib icuuc.lib icuin.lib" -opengl desktop -nomake examples -nomake tests -no-dbus -skip qtmacextras -skip qtx11extras -skip qtimageformats -skip qtandroidextras -skip qtserialport -skip qtserialbus -skip qtactiveqt -skip qtxmlpatterns -skip qtsvg -skip qtdeclarative -skip qtremoteobjects -skip qtscxml -skip qtpurchasing -skip qtcanvas3d -skip qtgamepad -skip qt3d -skip qtwayland -skip qtconnectivity -skip qtwebsockets -skip qtwebchannel -skip qtsensors -skip qtmultimedia -skip qtspeech -skip qtdatavis3d -skip qtcharts -skip qtwinextras -skip qtgraphicaleffects -skip qtquickcontrols2 -skip qtquickcontrols -skip qtvirtualkeyboard -skip qtlocation -skip qtwebkit -skip qtscript -skip qtwebengine -skip qtwebview -skip qtnetworkauth -skip qttranslations -skip qtdoc
+<span class="hljs-built_in">PAUSE</span>
+<span class="hljs-built_in">ECHO</span> ON
+nmake &amp;&amp; nmake install
+</div></code></pre>
+</li>
+</ul>
+<h2 id="qt540-vc14"><strong>Qt5.4.0 VC14下编译</strong></h2>
+<ul>
+<li>
+<p>在官方提供的文档中，可以发现是没有对应的编译platform。本人尝试了多次，也试过修改下Qt的源码，最终发现使用<code>-platform win32-msvc2013</code>也是可以编译vc14版本的Qt。 但还是仅能可以编译base模块。另外，qttools下的designer这个程序也可以编译通过，但是assistant这个却不行，这个应该是Qt5.4.0中的一些C++STL中的模板和容器不支持在VC14上编译。</p>
+</li>
+<li>
+<p>由于Qt5.4是一个过度版本，我就不再在这个版本多做研究。我在下面给出了编译脚本，有兴趣的同学可以研究一下。遇到问题，去看看<code>\qtbase\mkspecs\win32-msvc2013</code>和<code>\qtbase\tools\configure</code>下的源码，应该会有所帮助。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">REM Set up VC14 Tools Command Prompt</span>
+<span class="hljs-keyword">CALL</span> "C:\Program Files (x86)\Microsoft Visual Studio <span class="hljs-number">14</span>.<span class="hljs-number">0</span>\VC\vcvarsall.bat" amd64
+
+<span class="hljs-built_in">SET</span> ROOT=<span class="hljs-variable">%CD%</span>
+<span class="hljs-built_in">SET</span> QT_SOURCE=<span class="hljs-variable">%ROOT%</span>\qt-everywhere-opensource-src-<span class="hljs-number">5</span>.<span class="hljs-number">4</span>.<span class="hljs-number">0</span>
+<span class="hljs-built_in">SET</span> QT_WORKING=<span class="hljs-variable">%ROOT%</span>\<span class="hljs-number">5</span>.<span class="hljs-number">4</span>.<span class="hljs-number">0</span>_vc14_64
+<span class="hljs-built_in">SET</span> QT_INSTALL=<span class="hljs-variable">%ROOT%</span>\Qt\Qt5.<span class="hljs-number">4</span>.<span class="hljs-number">0</span>\<span class="hljs-number">5</span>.<span class="hljs-number">4</span>.<span class="hljs-number">0</span>\msvc2015_64
+<span class="hljs-comment">
+REM Set icu path, for needing it's dll to build something</span>
+<span class="hljs-built_in">SET</span> <span class="hljs-built_in">PATH</span>=<span class="hljs-variable">%QT_SOURCE%</span>\qtbase\bin;<span class="hljs-variable">%QT_SOURCE%</span>\gnuwin32\bin;<span class="hljs-variable">%PATH%</span>
+<span class="hljs-comment">
+REM Set the build working directory, so you can build 32/64 at the same time</span>
+<span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXIST</span> <span class="hljs-variable">%QT_WORKING%</span> <span class="hljs-built_in">RD</span> /s /q <span class="hljs-variable">%QT_WORKING%</span>
+<span class="hljs-built_in">MKDIR</span> <span class="hljs-variable">%QT_WORKING%</span>
+<span class="hljs-built_in">CD</span> /d <span class="hljs-variable">%QT_WORKING%</span>
+
+<span class="hljs-keyword">CALL</span> <span class="hljs-variable">%QT_SOURCE%</span>\configure.bat -mp -debug -shared -confirm-license -platform win32-msvc2013 -opensource -prefix <span class="hljs-variable">%QT_INSTALL%</span> -opengl desktop -nomake examples -nomake tests -skip qtandroidextras -skip qtmacextras -skip qtx11extras -skip qtsvg -skip qtxmlpatterns -skip qtdeclarative -skip qtquickcontrols -skip qtmultimedia -skip qtwinextras -skip qtactiveqt -skip qtlocation -skip qtsensors -skip qtconnectivity -skip qtwebsockets -skip qtwebchannel -skip qtwebkit -skip qtwebkit-examples -skip qtimageformats -skip qtgraphicaleffects -skip qtscript -skip qttools -skip qtquick1 -skip qtserialport -skip qtenginio -skip qtwebengine -skip qttranslations -skip qtdoc
+
+<span class="hljs-built_in">ECHO</span> ON
+nmake &amp;&amp; nmake install
+
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">%QT_SOURCE%</span>\qttools\src\designer
+<span class="hljs-keyword">CALL</span> <span class="hljs-variable">%QT_WORKING%</span>\qtbase\bin\qmake.exe designer.pro
+nmake &amp;&amp; nmake install
+
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">%QT_SOURCE%</span>\qttools\src\linguist
+<span class="hljs-keyword">CALL</span> <span class="hljs-variable">%QT_WORKING%</span>\qtbase\bin\qmake.exe linguist.pro
+nmake &amp;&amp; nmake install
+</div></code></pre>
+</li>
+</ul>
+<h2 id="referene"><em><strong>Referene</strong></em></h2>
 <ol>
 <li>
 <p><a href="http://blog.csdn.net/liuyez123/article/details/50339865#comments"> Visual Studio 2015编译安装配置QT5.5.1(含QTWEBKIT)</a></p>
@@ -424,6 +521,9 @@ ICU_PREFIX=/opt/icu42 ICU_LIBS="-licui18n -licuuc -licudata".
 </li>
 <li>
 <p><a href="http://www.cnblogs.com/SunShineYPH/archive/2011/12/13/2285570.html">Bat命令学习</a></p>
+</li>
+<li>
+<p><em>Markdown Src：</em>  https://github.com/joshion/CSDN.git</p>
 </li>
 </ol>
 
