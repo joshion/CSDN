@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 12px; line-height: 22px; word-wrap: break-word; } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } img { max-width: 100%; max-height: 100%; } a { color: #4080D0; text-decoration: none; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } a:hover { color: #4080D0; text-decoration: underline; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left: 5px solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ .vscode-light { color: rgb(30, 30, 30); } .vscode-dark { color: #DDD; } .vscode-high-contrast { color: white; } .vscode-light code { color: #A31515; } .vscode-dark code { color: #D7BA7D; } .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } .vscode-light blockquote, .vscode-dark blockquote { background: rgba(127, 127, 127, 0.1); border-color: rgba(0, 122, 204, 0.5); } .vscode-high-contrast blockquote { background: transparent; border-color: #fff; }
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-left: 40px; } .task-list-item { list-style-type: none; } .task-list-item-checkbox { vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="difference-between-c-and-java"><em><strong>Difference Between C++ and Java</strong></em></h1>
+<h2 id=""><strong>类的成员变量（字段）和成员函数（方法）的访问限定</strong></h2>
+<h3 id="java">Java中成员变量/成员函数的访问限定</h3>
+<table>
+<thead>
+<tr>
+<th>成员的访问修饰符</th>
+<th>本类(self)</th>
+<th>包内(package)</th>
+<th>包内子类</th>
+<th>包外子类</th>
+<th>子类(sub class)</th>
+<th>其他(other)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>X</td>
+</tr>
+<tr>
+<td>default</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>private</td>
+<td>√</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>Java的内部类和外部类</p>
+<ul>
+<li>上述的Java类都是外部类。(内部类比较少用)</li>
+<li>内部类可以是静态(static)的，可以使用 public、protected 和 private 访问控制符，而外部类只能使用 public或者default。</li>
+<li>成员式内部类可以使用各种修饰符，包括 public、protected、private、static、final 和 abstract，也可以不写。</li>
+<li>若有 static 修饰符，就为类级，否则为对象级。类级可以通过外部类直接访问，对象级需要先生成外部的对象后才能访问。</li>
+<li>使用内部类的主要原因有：
+<ol>
+<li>内部类可以访问外部类中的数据，包括私有的数据。</li>
+<li>内部类可以对同一个包中的其他类隐藏起来。</li>
+<li>当想要定义一个回调函数且不想编写大量代码时，使用匿名(anonymous)内部类比较便捷。</li>
+<li>减少类的命名冲突。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>备注</p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> 父类中声明为public的方法在子类中也必须为public。</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> 父类中声明为protected的方法在子类中要么声明为protected，要么声明为public。不能声明为private。</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> 父类中默认修饰符声明的方法，能够在子类中声明为private。</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> 父类中声明为private的方法，不能够被继承。</li>
+</ul>
+</li>
+</ul>
+<h3 id="c">C++中的访问限定以及继承</h3>
+<ul>
+<li>C++中成员变量/成员函数的访问限定</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>成员的访问修饰符</th>
+<th>本类(self)</th>
+<th>子类(sub class)</th>
+<th>友元(friend)</th>
+<th>其他(other)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>x</td>
+</tr>
+<tr>
+<td>private</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>C++中继承后访问性的变化(class A : public B)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>父类中的成员被子类继承后的访问限定</th>
+<th>父类中public成员</th>
+<th>父类中protected成员</th>
+<th>父类中private成员</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>继承方式</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>public</td>
+<td>public</td>
+<td>protected</td>
+<td>不可访问</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>protected</td>
+<td>protected</td>
+<td>不可访问</td>
+</tr>
+<tr>
+<td>private</td>
+<td>private</td>
+<td>private</td>
+<td>不可访问</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>备注
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> C++中有多继承，而在java中只有单继承</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> C++中继承用&quot;:&quot;；而java的类继承用&quot;extends&quot;，Java的接口实现用&quot;implements&quot;</li>
+</ul>
+</li>
+</ul>
+<h3 id="c-c-java">C, C++, Java的访问限定差异</h3>
+<ul>
+<li>C中class(struct)的默认访问是public</li>
+<li>C++中class的默认访问是private</li>
+<li>java中class的默认访问则是default
+<blockquote>
+<p>Java的访问修饰符需要在每一个方法或变量前声明，不然就是默认访问（若在类中没有显示地添加访问修饰符，则是默认访问）。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id=""><strong>基础类型的字节长度</strong></h2>
+<ul>
+<li>Java中的基础类型的位数不像C++那样依据不同编译器产商的不同实现而不同。Java中的位数是固定的，各基础类型的字节长度如下图所示。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>基础类型</th>
+<th>boolean</th>
+<th>byte</th>
+<th>short</th>
+<th>char</th>
+<th>int</th>
+<th>long</th>
+<th>float</th>
+<th>double</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字节长度（bytes）</td>
+<td>1bit</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+<td>4</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Java中的基础类型是没有有符号和无符号之分的，也即是说没有 unsigned 类型</li>
+</ul>
+<h2 id="cjava"><strong>C++和Java的各类型函数/方法</strong></h2>
+<h3 id="cjava">各类型的函数在C++/Java中的实现</h3>
+<table>
+<thead>
+<tr>
+<th>函数类型/类类型</th>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>静态函数(类函数，不需要实例化就可以调用的函数)</td>
+<td>static void func()</td>
+<td>static void func()</td>
+</tr>
+<tr>
+<td>普通函数(不可重写的函数)</td>
+<td>void func()</td>
+<td>final void func()</td>
+</tr>
+<tr>
+<td>虚函数(可以在子类中重写的函数)</td>
+<td>virtual void func()</td>
+<td>void func()</td>
+</tr>
+<tr>
+<td>纯虚函数(基类中只声明，在子类必须实现的函数)</td>
+<td>virtual void func() = 0</td>
+<td>abstract void func()</td>
+</tr>
+<tr>
+<td>抽象类</td>
+<td>有纯虚函数的类</td>
+<td>abstract修饰的类(含有abstract方法的类)</td>
+</tr>
+<tr>
+<td>虚基类(接口类)</td>
+<td>有且仅有纯虚函数的类</td>
+<td>interface修饰的类(所有函数都是抽象的)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="java">Java中的类类型</h3>
+<ul>
+<li>
+<p>抽象类</p>
+<ul>
+<li>抽象方法必须为public或者protected(private成员不能继承，声明为private无意义且规定不能声明为private)，缺省情况下默认为public。</li>
+<li>抽象类不能用来创建对象。</li>
+<li>如果一个类继承于一个抽象类，则子类必须实现父类的抽象方法。如果子类没有实现父类的抽象方法，则必须将子类也定义为为abstract类。</li>
+</ul>
+</li>
+<li>
+<p>接口</p>
+<ul>
+<li>接口中声明的成员方法默认都是 public abstract 且只能是public abstract，不能声明为 private 或protected，也不能为static。</li>
+<li>接口中声明的成员变量默认都是 public static final 的，必须显示的初始化。</li>
+</ul>
+</li>
+<li>
+<p>类内部定义的接口</p>
+<ul>
+<li>
+<p>类的内部接口默认是static且只能是static，类的内部接口可以访问类的所有成员变量，类似于C++中 lambda 函数。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Interf</span>
+    </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">fun</span><span class="hljs-params">()</span></span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">()</span>
+    </span>{
+        Log.e(<span class="hljs-string">"A"</span>, <span class="hljs-string">"in A.func()"</span>);
+        Interf interf = <span class="hljs-keyword">new</span> Interf() {
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fun</span><span class="hljs-params">()</span> </span>{
+            }
+        };
+        interf.fun();
+    }
+}
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Java中的final</p>
+<ul>
+<li>一旦将一个类声明为 final，那么该类包含的方法也将被隐式地声明为final，但是变量不是。<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span>
+</span>{
+    <span class="hljs-comment">// 类的成员变量，可以在此处直接初始化，如果没有在这里初始化，可以仅可以在构造函数中初始化。</span>
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> i;
+    <span class="hljs-comment">// 类的静态变量(类变量)，可以在此处初始化，如果没有在这里初始化，可以在static块中初始化。</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> j;
+
+    <span class="hljs-keyword">static</span>
+    {
+        j = <span class="hljs-number">0</span>;
+    }
+
+    A()
+    {
+        j = <span class="hljs-number">0</span>;     <span class="hljs-comment">//由于j在static块中已经初始化，故在此处是赋值，由于j被final修饰，所以这里的赋值在语法上是错误的。</span>
+        i = <span class="hljs-number">0</span>;     <span class="hljs-comment">//由于i没有在类成员变量声明时初始化，故在此处是初始化而不是赋值。</span>
+        i = <span class="hljs-number">0</span>;     <span class="hljs-comment">//由于i被final修饰且已经初始化，所以这里的赋值在语法上是错误的。</span>
+    }
+}
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+
+    </body>
+    </html>
