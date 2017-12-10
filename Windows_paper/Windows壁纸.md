@@ -39,5 +39,37 @@
     - 使用www.bing.com+以下红框中的url即可得到bing无水印壁纸
         - ![](Windows_wallpaper.png)
         - 可将分辨率改为 1920*1080 或者 2560*1440 获取更大尺寸的超清壁纸
+    - 对应的Python脚本
+        ``` Python
+        from urllib.request import urlopen
+        from urllib.request import urlretrieve
+        import re
+
+        import AdvancedHTMLParser
+        def get_urls(day_before, days):
+            url = 'http://www.bing.com/HPImageArchive.aspx?format=xml&idx=%d&n=%d&mkt=zh-cn' % (day_before, days)
+            respond = urlopen(url)
+            html = respond.read()
+            parser = AdvancedHTMLParser.AdvancedHTMLParser()
+            parser.parseStr(html)
+            items = parser.getElementsByTagName("url")
+            urls = [item.innerHTML for item in items]
+            pattern = re.compile(r"1366x768")
+            urls = [pattern.sub(r'1920x1080', url) for url in urls]
+            return urls
+
+
+        def get_images(day_before, days):
+            pattern = re.compile(r"\/")
+            for url in get_urls(day_before, days):
+                match = pattern.split(url)
+                if match and (len(match) >= 0):
+                    image_name = match[-1]
+                    urlretrieve("http://www.bing.com" + url, image_name)
+
+
+        if __name__ == "__main__":
+            get_images(0, 10)
+        ``` 
 
 - Markdown Src:  *https://github.com/joshion/CSDN.git*

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 12px; line-height: 22px; word-wrap: break-word; } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } img { max-width: 100%; max-height: 100%; } a { color: #4080D0; text-decoration: none; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } a:hover { color: #4080D0; text-decoration: underline; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left: 5px solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ .vscode-light { color: rgb(30, 30, 30); } .vscode-dark { color: #DDD; } .vscode-high-contrast { color: white; } .vscode-light code { color: #A31515; } .vscode-dark code { color: #D7BA7D; } .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } .vscode-light blockquote, .vscode-dark blockquote { background: rgba(127, 127, 127, 0.1); border-color: rgba(0, 122, 204, 0.5); } .vscode-high-contrast blockquote { background: transparent; border-color: #fff; }
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-left: 40px; } .task-list-item { list-style-type: none; } .task-list-item-checkbox { vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="windowsbingmarkdown"><strong>Windows壁纸和Bing主页壁纸提取(仅作测试MarkDown)</strong></h1>
+<h3 id="from-evernote-2016517"><em>From Evernote 2016/5/17</em></h3>
+<h2 id="win10spotlight">Win10壁纸设置以及Spotlight壁纸提取</h2>
+<ul>
+<li>在Filer Explorer的地址栏输入
+<ul>
+<li>
+<pre>C:\Users\Joshion\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets
+</li>
+</ul>
+</li>
+</ul>
+</pre>
+<ul>
+<li>此文件夹下所有的文件没有后缀名，但全部是图片文件。将这些文件拷贝出来，并重命名为jpg后缀的文件，即可得到壁纸</li>
+<li>可使用cmd命令行批量重命名
+<ul>
+<li><code>ren *.* *.jpg</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="">修改默认锁屏壁纸</h2>
+<ul>
+<li>进入注册列表 Win+R  =&gt; regedit
+<ul>
+<li>
+<pre>KEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization</pre>
+</li>
+</ul>
+</li>
+<li>点击新建项，在右侧新建名为LockScreenImage的字符串值，值设置为壁纸的路径</li>
+</ul>
+<h2 id="">删除自定义的锁屏壁纸</h2>
+<ul>
+<li>首先打开文件夹 C：\ProgramData\Microsoft\Windows\
+<ul>
+<li>可以按WIN+R，然后在运行中输入 %ProgramData%\Microsoft\Windows 回车进入</li>
+</ul>
+</li>
+<li>找到SystemData 文件夹，这时这个文件夹还不能访问（没有管理员权限），以下方法操作获取全权限：
+<ul>
+<li>右键属性 =&gt; “安全” =&gt; “高级按钮” =&gt; “更改”所有者 =&gt; “高级” =&gt; “立即查找” =&gt; 然后选择你登录的管理员帐户 =&gt; “确定”</li>
+</ul>
+</li>
+<li>此时文件夹就可以打开了，删除其中所有内容即可。</li>
+<li>然后 按WIN+R 打开运行，输入regedit 回车打开注册表，依次展开
+<ul>
+<li>
+<pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\SystemProtectedUserData</pre>
+</li>
+</ul>
+</li>
+<li>选择 SystemProtectedUserData 后 删除右侧 所有数据（除了默认），项本身不要删除；</li>
+<li>重启Win10系统后，锁屏无法设置的问题解决！</li>
+</ul>
+<h2 id="bing">提取Bing主页无水印壁纸</h2>
+<ul>
+<li>
+<p>Bing主页壁纸Api</p>
+<ul>
+<li>点击此链接会得到壁纸信息(其中idx为多少天前的主页, 而n为天数)
+<ul>
+<li>
+<pre>$bingImageApi = 'http://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=10&mkt=zh-cn';</pre>
+</li>
+<li>如 idx=3&amp;n=5, 代表8天前到3天前的壁纸</li>
+</ul>
+</li>
+<li>使用www.bing.com+以下红框中的url即可得到bing无水印壁纸
+<ul>
+<li><img src="file:///g%3A/CSDN/Windows_paper/Windows_wallpaper.png" alt=""></li>
+<li>可将分辨率改为 1920<em>1080 或者 2560</em>1440 获取更大尺寸的超清壁纸</li>
+</ul>
+</li>
+<li>对应的Python脚本<pre class="hljs"><code><div><span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlopen
+<span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlretrieve
+<span class="hljs-keyword">import</span> re
+
+<span class="hljs-keyword">import</span> AdvancedHTMLParser
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_urls</span><span class="hljs-params">(day_before, days)</span>:</span>
+    url = <span class="hljs-string">'http://www.bing.com/HPImageArchive.aspx?format=xml&amp;idx=%d&amp;n=%d&amp;mkt=zh-cn'</span> % (day_before, days)
+    respond = urlopen(url)
+    html = respond.read()
+    parser = AdvancedHTMLParser.AdvancedHTMLParser()
+    parser.parseStr(html)
+    items = parser.getElementsByTagName(<span class="hljs-string">"url"</span>)
+    urls = [item.innerHTML <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> items]
+    pattern = re.compile(<span class="hljs-string">r"1366x768"</span>)
+    urls = [pattern.sub(<span class="hljs-string">r'1920x1080'</span>, url) <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls]
+    <span class="hljs-keyword">return</span> urls
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_images</span><span class="hljs-params">(day_before, days)</span>:</span>
+    pattern = re.compile(<span class="hljs-string">r"\/"</span>)
+    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> get_urls(day_before, days):
+        match = pattern.split(url)
+        <span class="hljs-keyword">if</span> match <span class="hljs-keyword">and</span> (len(match) &gt;= <span class="hljs-number">0</span>):
+            image_name = match[<span class="hljs-number">-1</span>]
+            urlretrieve(<span class="hljs-string">"http://www.bing.com"</span> + url, image_name)
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    get_images(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>)
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Markdown Src:  <em>https://github.com/joshion/CSDN.git</em></p>
+</li>
+</ul>
+
+    </body>
+    </html>
