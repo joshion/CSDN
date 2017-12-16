@@ -1,57 +1,121 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-        <style>
-/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 12px; line-height: 22px; word-wrap: break-word; } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } img { max-width: 100%; max-height: 100%; } a { color: #4080D0; text-decoration: none; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } a:hover { color: #4080D0; text-decoration: underline; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left: 5px solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ .vscode-light { color: rgb(30, 30, 30); } .vscode-dark { color: #DDD; } .vscode-high-contrast { color: white; } .vscode-light code { color: #A31515; } .vscode-dark code { color: #D7BA7D; } .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } .vscode-light blockquote, .vscode-dark blockquote { background: rgba(127, 127, 127, 0.1); border-color: rgba(0, 122, 204, 0.5); } .vscode-high-contrast blockquote { background: transparent; border-color: #fff; }
-</style>
-<style>
-/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
-</style>
-<style>
-ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-left: 40px; } .task-list-item { list-style-type: none; } .task-list-item-checkbox { vertical-align: middle; }
-</style>
-        <style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
-                font-size: 14px;
-                line-height: 1.6;
-            }
-        </style>
-    </head>
-    <body>
-        <h1 id="choice-of-commands-model-of-branch-difference-between-git-and-hgmercurial">Choice of commands, Model of branch, Difference between Git and Hg(Mercurial)</h1>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Git_and_Hg</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.line-block{white-space: pre-line;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="choice-of-commands-model-of-branch-difference-between-git-and-hgmercurial">Choice of commands, Model of branch, Difference between Git and Hg(Mercurial)</h1>
 <h2 id="some-version-control"><strong>Some Version Control</strong></h2>
-<h3 id="svnsubversion-and-cvs"><em><code>SVN(Subversion)</code> and <code>CVS</code></em></h3>
+<h3 id="svn-and-cvs"><em><code>SVN</code> and <code>CVS</code></em></h3>
 <blockquote>
-<p>C/S结构, 中心存储库模式</p>
+<p>传统版本控制系统（中心存储库模式）。CVS(Concorrent version system)，就目前情况来看，CVS应该已经被SVN替代（SVN都快要被其他分布式结构的版本管理软件所替代），这是一个比较古老的软件，就我而言，我是仅知道有这么一个软件，但是从未用过。SVN(Subversion)，作为一个为了代替CVS而开发出来的软件，但是仍是没有脱离原有的<code>中心存储库模式</code>框架，因而即使是一些小项目，一些仅有一个文件的项目，若你想使用SVN来进行代码管理，还是得先搭一下服务器。虽然SVN是我第一接触到的版本管理软件，但是稍后就转到Git去了（毕竟Github是宇宙第一男同性交友网站），故而对SVN的特性并没有什么了解，在此不再细说。</p>
 </blockquote>
-<h3 id="hgmercurial-and-git"><code>Hg(Mercurial)</code> and <code>Git</code></h3>
+<h3 id="hgmercurial-git-and-bazaar"><em><code>Hg(Mercurial)</code> , <code>Git</code> and <code>Bazaar</code></em></h3>
 <blockquote>
-<p>DC结构, 分布式</p>
+<p>分布式版本控制系统，简称DVCS。此三者都是基于分布式的设计，相比于SVN，这类的版本控制系统最突出的优点在于无需一个中心服务器（客户端和服务器可以在同一机器上）。可以随时随地在某一个文件夹下建立个仓库，再将这些文件添加到版本管理中，对于个人独立开发者，这个一个致命的诱惑。我想这也是Github能成为宇宙第一男同性交友网站的原因之一。</p>
 </blockquote>
-<h3 id="others">Others</h3>
-<ol>
-<li>
-<p>Gerrit</p>
-</li>
-<li>
-<p>Bazaar</p>
-</li>
-<li>
-<p>Perforce</p>
-</li>
+<h3 id="others"><em>Others</em></h3>
+<ol type="1">
+<li>Gerrit &gt; 基于git的一个代码review系统</li>
+<li>BitKeeper &gt; Linus在开发出Git之前使用其来管理Linux内核代码主线</li>
 </ol>
 <h2 id="choice-of-commands"><strong>Choice of commands</strong></h2>
+<blockquote>
+<p>本人日常使用的<code>DVCS</code>为Hg 和 Git，这两者虽然在某些特性上有所差别，但是在命令层次却是高度相似。而两者的差别，暂时没有做过全面的对比，无法给出一个系统的结果。这里也并非hg和git的使用教学，而是一些关于<code>可以实现同一个功能的不同命令操作时会得到的实际结果</code>的一些心得。在此以Hg为例（无可置疑，TortoiseHg的界面还是比TortoiseGit的好看那么一丢丢）</p>
+</blockquote>
+<h3 id="hg-patch-diff-and-ref">hg, patch, diff and ref</h3>
+<blockquote>
+<p>在hg的使用的时，可以手动导出hg, patch, diff这三种“差异”文件，而在合并过程中无法解决冲突时，可能会生成一个ref的临时文件。 当我们在多个仓库之间交流（使用push和pull），需要传输的正是这些差异文件。</p>
+</blockquote>
+<ol type="1">
+<li>diff
+<ol type="1">
+<li><p>导出(注意参数的先后顺序，最终得到的结果是以第一个参数的结点为基准，差异是第二个参数结点相对于第一参数结点的差异)</p>
+<pre class="bat"><code>hg diff -r [sREV] -r [otherREV] &gt;&gt; *.diff</code></pre></li>
+<li><p>导入</p>
+<pre class="bat"><code>hg import *.diff</code></pre></li>
+</ol></li>
+<li>patch / hg
+<ol type="1">
+<li>patch
+<ol type="1">
+<li><p>导出</p>
+<pre class="bat"><code>hg export -o &quot;*.patch&quot; -r [REV]</code></pre></li>
+<li><p>导入(patch / import)</p>
+<pre class="bat"><code>hg import &quot;*.patch&quot;</code></pre></li>
+</ol></li>
+<li>hg
+<ol type="1">
+<li><p>导出</p>
+<pre class="bat"><code>hg bundle -o &quot;*.hg&quot; -r [REV]</code></pre></li>
+<li><p>导入(patch / import)</p>
+<pre class="bat"><code>hg unbundle &quot;*.hg&quot;</code></pre></li>
+</ol></li>
+</ol></li>
+<li>ref</li>
+</ol>
+<h3 id="merge-rebase-and-grafttransplant">merge, rebase and graft(transplant)</h3>
+<ol type="1">
+<li><p>merge</p></li>
+<li><p>rebase</p></li>
+<li>graft / transplant &gt; graft可以理解为保留原分支的复制merge，但是transplant和rebase的本质差别目前暂时还无法领悟。
+<ol type="1">
+<li>graft 使用merge，在保留原来结点的基础上，并将结点复制一份和当前结点相合并。使用graft可以追踪到这些结点从何处graft而来。
+<ul>
+<li><img src="graft.png" /></li>
+</ul></li>
+<li>transplant 类似于rebase，在保留原来结点的基础上，并将结点复制一份和当前结点相合并。该命令和<code>hg rebase -r [REV] -d [REV] -k</code>得到的应该是同样的结果，目前我发现两者之间的唯一差别在于transplant会留下原节点的历史，而rebase则不会。（在transplant有冲突时并不会调用three-way-merge，而是给出一个*.rej文件；而rebase对单个结点进行操作时发生冲突是会调用three-way-merge。）
+<ul>
+<li><img src="transplant.png" /></li>
+</ul></li>
+<li><p>使用命令<code>hg tranplant --help</code>可得到以下说明。由此，隐隐感觉官方也认为 <code>transplant</code>是一个可有可无的命令。</p>
+<pre class="hg"><code>    Consider using the graft command if everything is inside the same
+repository - it will use merges and will usually give a better result.
+Use the rebase extension if the changesets are unpublished and you want
+to move them instead of copying them.</code></pre></li>
+</ol></li>
+</ol>
+<h3 id="shelve-rollback-and-backout">shelve, rollback and backout</h3>
+<ol type="1">
+<li><p>shelve 将当前workspace下的修改暂时储存在一个临时文件，可以稍后将这些改动拿回来。</p></li>
+<li><p>rollback 撤销最近的一次操作</p></li>
+<li>backout
+<ol type="1">
+<li>将想要的backout的结点与其父节点的差异import，可以得到与backout类似的结果</li>
+</ol></li>
+</ol>
+<h3 id="others-1">others</h3>
+<blockquote>
+<p><code>hg --help --verbose</code>会列出所有命令并附有一个简介，而<code>hg [command] -h -v</code>则会得到对应命令的帮助说明，在此就不在展开阐述。</p>
+</blockquote>
 <h2 id="model-of-branch"><strong>Model of branch</strong></h2>
+<p>pass</p>
 <h2 id="difference-between-git-and-hg"><strong>Difference between Git and Hg</strong></h2>
+<p>pass</p>
 <h2 id="reference"><em>Reference</em></h2>
-<ol>
+<ol type="1">
 <li><a href="http://www.cnblogs.com/xueweihan/p/5743327.html">[git]merge和rebase的区别</a></li>
 <li><a href="http://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a></li>
 <li><a href="http://www.cnblogs.com/y041039/articles/2411600.html">Git的Patch功能</a></li>
 <li><a href="http://www.cnblogs.com/code-style/p/3795763.html">hg vs git ：这个世界除了svn还有别的</a></li>
+<li><a href="http://www.cnblogs.com/webapplee/p/3959828.html">[代码管理_版本控制]开放源代码版本控制系统</a></li>
+<li><a href="https://github.com/gotgit/gotgit">gotgit</a></li>
+<li><a href="https://www.mercurial-scm.org/" class="uri">https://www.mercurial-scm.org/</a></li>
+<li><a href="http://hgbook.red-bean.com/read/">Mercurial: The Definitive Guide by Bryan O’Sullivan</a></li>
 </ol>
-
-    </body>
-    </html>
+</body>
+</html>
