@@ -1,0 +1,9 @@
+{
+    "version": "0.1.0",
+    "command": "make\\make.bat",
+    "args": ["${workspaceRoot}\\make\\${fileBasenameNoExtension}.make",
+        "${fileBasenameNoExtension}",
+        "${workspaceRoot}\\header",
+        "${workspaceRoot}\\build\\${fileBasenameNoExtension}.exe"
+    ]
+}

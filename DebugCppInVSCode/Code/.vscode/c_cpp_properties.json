@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "intelliSenseMode": "msvc-x64",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceRoot}\\header",
+                "C:\\Qt\\Qt5.10.0\\Tools\\mingw530_32\\i686-w64-mingw32\\include",
+                "C:\\Qt\\Qt5.10.0\\Tools\\mingw530_32\\i686-w64-mingw32\\include\\c++",
+                "C:\\Qt\\Qt5.10.0\\Tools\\mingw530_32\\i686-w64-mingw32\\include\\c++\\i686-w64-mingw32"
+            ],
+            "defines": []
+        }
+    ],
+    "version": 3
+}
